@@ -56,7 +56,7 @@ class Board
     def []=(y,x, something)
         #this will prevent a box that is already occupied from being re-occupied
         # that is stopping the user from playing the same box twice
-        if @grid[y][x] != :" " && [:X, :O].include?(something)
+        if @grid[y][x] == :" " && [:X, :O].include?(something)
             @grid[y][x] = something
         else 
             false #implicit return

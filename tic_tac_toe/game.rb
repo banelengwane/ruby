@@ -13,9 +13,13 @@ class Game
         #TODO: Get a move from player one.
         p move
         # TODO Mark that place on the board
-        @board[1,1] = player.marker
+        @board[*move]=(player.marker)
         # TODO Check for a winner
-        # @board.winner?(marker)
+        p @board.winner?(player.marker)
+    end
+
+    def print_board
+        @board.print_grid
     end
 
 end
