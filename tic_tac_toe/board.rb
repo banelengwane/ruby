@@ -33,7 +33,15 @@ class Board
         end
     end
 
-    def diagonal_win?
+    def diagonal_win?(marker)
+        [
+            lambda {|i| i},
+            lambda {|i| -(i+1)}
+        ].any? do |proc|
+            (0...HEIGHT).all? do |i|
+                @grid[i][proc.call(i)] == marker
+            end
+        end
     end
 end
 
@@ -43,17 +51,18 @@ def print_and_check
     puts "Row with all 0s: #{@b.row_win?(:O)}"
     puts "Row with all Xs: #{@b.row_win?(:X)}"
     puts "Column with all 0s: #{@b.column_win?(:O)}"
-    puts "Column with all 0s: #{@b.column_win?(:O)}"
-    
+    puts "Column with all 0s: #{@b.column_win?(:X)}"
+    puts "diagonal with all 0s: #{@b.diagonal_win?(:O)}"
+    puts "diagonal with all 0s: #{@b.diagonal_win?(:X)}"
 end
 
 @b = Board.new
 print_and_check
-@b.grid[0][2] = :O
+@b.grid[2][2] = :O
 print_and_check
 @b.grid[1][1] = :O
 print_and_check
-@b.grid[2][0] = :O
+@b.grid[0][0] = :O
 print_and_check
 
 
