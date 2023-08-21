@@ -7,3 +7,9 @@ players = [
 ]
 
 game = Game.new(players)
+
+puts "Welcom to Tic Tac Toe"
+puts "Player one's turn"
+puts "Player one, pick a move."
+
+game.play_turn(players[0])
