@@ -6,14 +6,8 @@ class Board
         @grid = Array.new(HEIGHT) {Array.new(WIDTH,:" ")}
     end
 
-    def print_grid
-        @grid.each do |row|
-            puts
-            row.each do |cell|
-                print "[#{cell}]"
-            end
-        end
-        puts
+    def display
+        @grid.reduce("\n") { |output, row| output << format_row(row) } << "\n"
     end
 
     def row_win?(marker)
@@ -59,31 +53,15 @@ class Board
         if @grid[y][x] == :" " && [:X, :O].include?(something)
             @grid[y][x] = something
         else 
-            false #implicit return
+            false
         end
+    end
+
+    private
+    def format_row(row )
+        row.reduce("") { |row_string, cell| row_string << "[#{cell}]"} << "\n"
     end
 end
 
-#test area
-#def print_and_check
-=begin
-    @b.print_grid
-    puts "Row with all 0s: #{@b.row_win?(:O)}"
-    puts "Row with all Xs: #{@b.row_win?(:X)}"
-    puts "Column with all 0s: #{@b.column_win?(:O)}"
-    puts "Column with all 0s: #{@b.column_win?(:X)}"
-    puts "diagonal with all 0s: #{@b.diagonal_win?(:O)}"
-    puts "diagonal with all 0s: #{@b.diagonal_win?(:X)}"
-end
-
-@b = Board.new
-print_and_check
-@b[2,2] = :O
-print_and_check
-@b[1,1] = :O
-print_and_check
-@b[0,0] = :O
-print_and_check
-=end
 
 
