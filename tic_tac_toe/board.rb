@@ -53,16 +53,17 @@ class Board
     def []=(y,x, something)
         #this will prevent a box that is already occupied from being re-occupied
         # that is stopping the user from playing the same box twice
-        if @grid[y][x] != :" "
+        if @grid[y][x] != :" " && [:X, :O].include?(something)
             @grid[y][x] = something
         else 
-            return false
+            false #implicit return
         end
     end
 end
 
 #test area
-def print_and_check
+#def print_and_check
+=begin
     @b.print_grid
     puts "Row with all 0s: #{@b.row_win?(:O)}"
     puts "Row with all Xs: #{@b.row_win?(:X)}"
@@ -80,6 +81,6 @@ print_and_check
 print_and_check
 @b[0,0] = :O
 print_and_check
-
+=end
 
 
