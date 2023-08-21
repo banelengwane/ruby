@@ -43,6 +43,22 @@ class Board
             end
         end
     end
+
+    # getter
+    def [](y,x)
+        @grid[y][x]
+    end
+
+    #setter
+    def []=(y,x, something)
+        #this will prevent a box that is already occupied from being re-occupied
+        # that is stopping the user from playing the same box twice
+        if @grid[y][x] != :" "
+            @grid[y][x] = something
+        else 
+            return false
+        end
+    end
 end
 
 #test area
@@ -58,11 +74,11 @@ end
 
 @b = Board.new
 print_and_check
-@b.grid[2][2] = :O
+@b[2,2] = :O
 print_and_check
-@b.grid[1][1] = :O
+@b[1,1] = :O
 print_and_check
-@b.grid[0][0] = :O
+@b[0,0] = :O
 print_and_check
 
 
