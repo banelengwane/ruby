@@ -15,7 +15,7 @@ class Game
         # TODO Mark that place on the board
         @board[*move]=(player.marker)
         # TODO Check for a winner
-        p @board.winner?(player.marker)
+        @board.winner?(player.marker)
     end
 
     def display_board
