@@ -10,25 +10,21 @@ class Game
     def play_until_end
         current_player, other_player = @players
         until @winner do 
-            puts display_board
-            print 
-            puts "It is #{current_player.name}'s turn"
             play_turn(current_player)
-            @winner = current_player if @board.winner?(current_player.marker)
             current_player, other_player = other_player, current_player           
         end
+        puts @board.display
         @winner 
     end
 
 
     def play_turn(player)
+        puts @board.display
+        puts "It is #{player.name}'s turn"
+
         move = player.get_move
         @board[*move]=(player.marker)
-        @board.winner?(player.marker)
-    end
 
-    def display_board
-        @board.display
+        @winner = player if @board.winner?(player)
     end
-
 end
