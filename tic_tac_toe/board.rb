@@ -71,8 +71,9 @@ class Board
 
     def diagonal_win?(marker)
         [
-            lambda {|i| i},
-            lambda {|i| -(i+1)}
+            #stabby lambda syntax
+            ->(i) { i },
+            ->(i) { -(i+1) }
         ].any? do |proc|
             (0...HEIGHT).all? do |i|
                 @grid[i][proc.call(i)] == marker
