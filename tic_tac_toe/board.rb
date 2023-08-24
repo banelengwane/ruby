@@ -11,20 +11,22 @@ class Board
         row_win?(marker) || column_win?(marker) || diagonal_win?(marker)
     end
 
-    # getter
-    def [](y,x)
-        @grid[y][x]
+    def spaces_left?
+        @grid.any? do |row|
+            row.any? do |cell|
+                cell == :" "
+            end
+        end
     end
 
     #setter
-    def []=(y,x, something)
+    def place_marker(coordinates, marker)
+        y, x = coordinates
         #this will prevent a box that is already occupied from being re-occupied
         # that is stopping the user from playing the same box twice
-        if @grid[y][x] == :" " && [:X, :O].include?(something)
-            @grid[y][x] = something
-        else 
-            false
-        end
+        @grid[y][x] = marker if @grid[y][x] == :" " 
+        # (@grid[y][x] == :" ")  && (@grid[y][x] = marker)
+
     end
 
     def display
