@@ -4,8 +4,6 @@ require_relative 'player'
 class Session 
 
     def initialize
-        puts "Welcom to Tic Tac Toe"
-
         @players = [
             Player.new("Kevin", :X),
             Player.new("Maya", :O)
@@ -17,9 +15,13 @@ class Session
     private
 
     def play_loop
+        puts "Welcom to Tic Tac Toe"
         loop do 
             puts "Starting a new game."
-            play_a_game   
+            game = Game.new(@players)
+            @last_winner = game.winner
+            puts announce_winner
+            update_scores
             puts display_scores
             break unless play_again?   
         end
@@ -41,24 +43,18 @@ class Session
         end
     end
 
-    def play_a_game
-        game = Game.new(@players)
-
-        winner = game.play_until_end
-        if winner
-            puts "#{winner.name} Won"
-            winner.increment_score
-        else 
-            puts "Its a TIE!"
-            @ties += 1
-        end
+    def update_scores
+        @last_winner ? @last_winner.increment_score : @ties += 1 
     end
+
+    def announce_winner(winner)
+        @last_winner ? "#{@last_winner.name} Won" : "The game was a tie!"
+    end
+
 
     def display_scores
         scores_array = ["", "The scores after #{games_played} games :"]
-        scores_array << @players.map do 
-            |player| "#{player.name} has won #{player.score} times"
-        end
+        scores_array.concat(@players.map {|player| "#{player.name} has won #{player.score} times"})
        scores_array << "#{@players[0].name} and #{@players[1].name} have tied #{@ties} times"
        scores_array << ""
     end
