@@ -5,8 +5,7 @@ class Player
         column: ->(input) { input.to_i - 1 }
     }
 
-    attr_reader :marker
-    attr_reader :name
+    attr_reader :name, :marker, :score
 
     def initialize(name, marker)
         @name = name
@@ -14,8 +13,16 @@ class Player
         @score = 0
     end
 
+    def score
+        @score
+    end
+
     def get_move
         [get_coordinate(:row), get_coordinate(:column)]
+    end
+
+    def increment_score
+        @score += 1
     end
 
     def get_coordinate(row_or_column)
