@@ -1,4 +1,9 @@
+require_relative 'input_helper'
+
 class Player 
+
+    include InputHelper
+
     ROW_MAP = (:A..:C).zip(0..2).to_h
     TRANSLATIONS = {
         row: ->(input) { ROW_MAP[input[0].upcase.to_sym]},
@@ -18,26 +23,27 @@ class Player
     end
 
     def get_move
-        [get_coordinate(:row), get_coordinate(:column)]
+        TRANSLATIONS.map do |row_or_column, translator|
+            get_coordinate(row_or_column, translator)
+        end
     end
 
     def increment_score
         @score += 1
     end
 
-    def get_coordinate(row_or_column)
+    def get_coordinate(row_or_column, translator)
         loop do 
-            choice_prompt(row_or_column)
+            prompt "Pick a #{row_or_column} :"
             input = gets 
-            choice = TRANSLATIONS[row_or_column].call(input)
+            choice = translator.call(input)
             return choice if in_bounds?(choice)
-            puts "Invalid #{row_or_column}"
+            puts "Invalid #{row_or_column}."
         end
     end
 
     def choice_prompt(string)
-        puts "Pick a #{string}:"
-        print "> "
+        
     end
 
     def in_bounds?(choice)
