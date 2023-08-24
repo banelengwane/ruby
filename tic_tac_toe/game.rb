@@ -1,23 +1,28 @@
 require_relative 'board'
 
 class Game
-    
+
     attr_reader :winner
 
     def initialize(players)
         @players = players
         @board = Board.new
-        play_until_end
+        start_game
     end
 
-    def play_until_end
+    def start_game
+        puts "Starting a new game..."
+        play_loop
+        puts @board.display
+        puts announce_winner
+    end
+
+    def play_loop 
         current_player, other_player = @players
         until @winner || !@board.spaces_left?  do 
             play_turn(current_player)
             current_player, other_player = other_player, current_player          
         end
-        puts @board.display
-        @winner 
     end
 
 
@@ -30,5 +35,9 @@ class Game
             puts "Invalid move"
         end
         @winner = player if @board.winner?(player)
+    end
+
+    def announce_winner
+       @winner ? "#{@winner.name} Won" : "The game was a tie!"
     end
 end

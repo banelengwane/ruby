@@ -4,28 +4,33 @@ require_relative 'player'
 class Session 
 
     def initialize
+        puts "Welcom to Tic Tac Toe"
         @players = [
-            Player.new("Kevin", :X),
-            Player.new("Maya", :O)
+            create_player(:X),
+            create_player(:O)
         ]
         @ties = 0
         play_loop
+        puts "Goodbye."
     end
 
     private
 
+    def create_player(marker)
+        print "Who will play as #{marker}: \n> "
+        name = gets.chomp.strip
+        Player.new(name, marker)
+    end
+
     def play_loop
-        puts "Welcom to Tic Tac Toe"
         loop do 
             puts "Starting a new game."
-            game = Game.new(@players)
-            @last_winner = game.winner
-            puts announce_winner
-            update_scores
-            puts display_scores
-            break unless play_again?   
+            outs "#{@players.first} You will play first."
+            game = Game.new(games_played.even? ? @players : @players.reverse)
+            update_scores(gmae.winner)
+            puts scoreboard
+            break unless play_again? 
         end
-        puts "Goodbye."
     end
 
     def play_again?
@@ -43,23 +48,25 @@ class Session
         end
     end
 
-    def update_scores
-        @last_winner ? @last_winner.increment_score : @ties += 1 
+    def update_scores(winner)
+        winner ? winner.increment_score : @ties += 1 
     end
 
-    def announce_winner(winner)
-        @last_winner ? "#{@last_winner.name} Won" : "The game was a tie!"
-    end
-
-
-    def display_scores
-        scores_array = ["", "The scores after #{games_played} games :"]
-        scores_array.concat(@players.map {|player| "#{player.name} has won #{player.score} times"})
-       scores_array << "#{@players[0].name} and #{@players[1].name} have tied #{@ties} times"
+    def scoreboard
+        scores_array = [
+            "", 
+            "The score after #{games_played} game#{handle_plural(games_played)} :"
+        ]
+        scores_array.concat(@players.map {|player| "#{player.name} has won #{player.score} time#{handle_plural(player.score)}"})
+       scores_array << "#{@players[0].name} and #{@players[1].name} have tied #{@ties} time#{handle_plural(@ties)}"
        scores_array << ""
     end
 
     def games_played
         @ties + @players.reduce(0) {|a, e| a + e.score}  # a - accumulator, e - element
+    end
+
+    def handle_plural(value)
+        's' unless value == 1
     end
 end
